@@ -1,0 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Oswald:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Spider Cave';
+  src: url('./assets/fonts/spider-cave/SpiderCave-Regular.ttf') format('truetype'),
+       url('./assets/fonts/spider-cave/SpiderCave-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --font-oswald: 'Oswald', sans-serif;
+  --color-black: #000000;
+  --color-dark: #0D0E12;
+  --color-border-zinc: #71717A;
+  --color-error-red: #EF4444;
+}
+
+/* Base resets & typography */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  background-color: #000000;
+  color: #FFFFFF;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom terminal scanning line & CRT effects */
+.scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
+  background-size: 100% 4px;
+}
+
+.terminal-glow {
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+}
+
+.terminal-glow-green {
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
+}
+
+.terminal-glow-red {
+  text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.animate-scan {
+  animation: scan 10s linear infinite;
+}
+
+/* Transitions */
+.transition-snap {
+  transition: all 150ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Custom CRT screen curvature overlay */
+.crt-overlay {
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+/* Dithered/pixel background overlay pattern */
+.dither-bg {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+.nav{
+  text-shadow: 
+     1px 20px 15px rgba(225, 29, 72, 0.5), 20px 16px 10px rgba(0, 0, 0, 0.9);
+}
+/* Spider-Man logo style headings */
+.title-spiderman {
+  font-family: 'Spider Cave', 'Bebas Neue', 'Arial Black', sans-serif;
+  color: black;
+  letter-spacing: 0.04em;
+  transform: skewX(-6deg); /* Slight angular action-cuts */
+  display: inline-block;
+  
+  /* Stark white/silver outline to pop on dark backgrounds */
+  -webkit-text-stroke: 0.001px rgba(255, 255, 255, 0.95);
+  text-shadow: 
+     1px 20px 15px rgba(225, 29, 72, 0.5), 20px 16px 10px rgba(0, 0, 0, 0.9);
+}
+
+.subtitle-spiderman {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300; /* Light geometric weight */
+  letter-spacing: 0.35em; /* High tracking / wide letter-spacing */
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Floating rounded navbar utility */
+.rounded-nav {
+  border-radius: 9999px !important;
+}
+
+/* Swinging animations for web-hanging cards */
+@keyframes web-swing {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+.animate-swing-slow-1 {
+  animation: web-swing 5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-swing-slow-2 {
+  animation: web-swing 6s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.animate-swing-slow-3 {
+  animation: web-swing 5.5s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+/* Lenis smooth scrolling integration rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Custom rounded card override to bypass global border-radius: 0 reset */
+.rounded-card, .rounded-card * {
+  border-radius: 16px !important;
+}
+
+/* Global input controls rounded corners */
+input:not([type="radio"]), select, textarea {
+  border-radius: 12px !important;
+}
+
+@keyframes web-glow-red {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+@keyframes web-glow-blue {
+  0%, 100% { opacity: 0.65; }
+  50% { opacity: 1; }
+}
+
+.animate-web-glow-red {
+  filter: drop-shadow(0 0 16px rgba(225, 29, 72, 0.85)) drop-shadow(0 0 6px rgba(225, 29, 72, 0.4));
+  animation: web-glow-red 4s ease-in-out infinite;
+  will-change: opacity;
+}
+
+.animate-web-glow-blue {
+  filter: drop-shadow(0 0 16px rgba(37, 99, 235, 0.85)) drop-shadow(0 0 6px rgba(37, 99, 235, 0.4));
+  animation: web-glow-blue 4s ease-in-out infinite;
+  will-change: opacity;
+}
+
+/* Hide default browser scrollbar for a clean presentation */
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Hide all margin web ropes/scroll tracks running down the page */
+.absolute.inset-y-0.left-2,
+.absolute.inset-y-0.right-2,
+.absolute.inset-y-0.left-6,
+.absolute.inset-y-0.right-6,
+div[style*="web rope"],
+div[style*="web-rope"],
+div[class*="web-rope"],
+[class*="rope"],
+[style*="rope"] {
+  display: none !important;
+}
+
+/* Hide custom scrolling spider indicators and tracks */
+[class*="spider-indicator"],
+[class*="SpiderIndicator"],
+[alt*="Spider Indicator"],
+[src*="web-spider"] {
+  display: none !important;
+}
+
+/* Make Google reCAPTCHA v3 badge subtle & compact */
+.grecaptcha-badge {
+  transform: scale(0.6) !important;
+  transform-origin: bottom right !important;
+  opacity: 0.3 !important;
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+  z-index: 40 !important;
+}
+
+.grecaptcha-badge:hover {
+  opacity: 0.95 !important;
+  transform: scale(0.85) !important;
+}

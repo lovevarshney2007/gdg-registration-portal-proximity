@@ -63,6 +63,7 @@ const registrationSchema = z.object({
   studentNumber: z.string({ error: 'Student number is required.' })
     .trim()
     .regex(/^\d+$/, { message: 'Student number must contain only digits.' })
+    .startsWith('25', { message: 'Student number must start with 25.' })
     .min(7, { message: 'Student number must be between 7 and 13 digits.' })
     .max(13, { message: 'Student number must be between 7 and 13 digits.' }),
   phone: z.string({ error: 'Contact number is required.' })

@@ -4,7 +4,6 @@ An interactive, high-fidelity, retro-brutalist cosmic recruitment portal built f
 
 ---
 
-
 ## 🎨 Visual Identity & Typographic Layout
 
 The portal is designed with a stark, terminal-like **retro-brutalist cosmic aesthetic**. It utilizes sharp container boxes, custom glow animations, pixelated noise, and CRT overlays to replicate a futuristic sandbox environment.

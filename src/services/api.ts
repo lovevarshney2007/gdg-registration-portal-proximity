@@ -22,7 +22,7 @@ export interface RegisterPayload {
   unstopId?: string;
   residence: string;
   domain: string;
-  githubId: string;
+  githubId?: string;
   hackerrankId: string;
 }
 

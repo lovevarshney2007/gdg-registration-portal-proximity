@@ -87,12 +87,10 @@ const registrationSchema = z.object({
   domain: z.enum(domains, {
     error: 'Please select a valid evaluation domain.',
   }),
-  githubId: z.string({ error: 'GitHub username is required.' })
+  githubId: z.string()
     .trim()
-    .min(1, { message: 'GitHub username is required.' })
-    .regex(/^[a-zA-Z0-9-]+$/, {
-      message: 'GitHub username must contain only alphanumeric characters and hyphens.',
-    }),
+    .optional()
+    .or(z.literal('')),
   hackerrankId: z.string({ error: 'HackerRank username is required.' })
     .trim()
     .min(1, { message: 'HackerRank username is required.' }),
@@ -580,7 +578,7 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-1">
               <label className="block font-mono text-xs text-white tracking-widest uppercase">
-                * GITHUB USERNAME / ID
+                GITHUB USERNAME / ID (OPTIONAL)
               </label>
               <input
                 type="text"

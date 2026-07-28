@@ -87,14 +87,12 @@ export const registrationSchema = z.object({
     error: 'Residency allocation must be Day Scholar or Hosteller.',
   }),
 
-  // 9. GitHub Username / ID: min 1 char, optional alphanumeric + hyphen regex.
+  // 9. GitHub Username / ID: optional
   githubUsername: z
-    .string({ error: 'GitHub username is required.' })
+    .string()
     .trim()
-    .min(1, { message: 'GitHub username is required.' })
-    .regex(/^[a-zA-Z0-9-]+$/, {
-      message: 'GitHub username must contain only alphanumeric characters and hyphens.',
-    }),
+    .optional()
+    .or(z.literal('')),
 
   // 10. HackerRank Username / ID: min 1 char.
   hackerrankUsername: z

@@ -316,6 +316,14 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
   }, [nameVal, studentNumberVal, setValue]);
 
   const onSubmit = async (data: RegistrationData) => {
+    if (data.gender === 'Female' && data.residence === 'Hosteller') {
+      const deadline = new Date('2026-07-30T12:00:00+05:30');
+      if (new Date() >= deadline) {
+        setErrorMsg('Registration for Girls Hosteller is closed.');
+        return;
+      }
+    }
+
     setIsSubmitting(true);
     setErrorMsg(null);
     setLoadingText('SOLVING ANTIBOT CHALLENGE...');
@@ -354,7 +362,9 @@ const RegistrationFormSub: React.FC<RegistrationFormProps> = ({ onSuccess }) => 
         name: data.name,
         email: data.email,
         studentNumber: data.studentNumber,
-        captchaToken: token
+        captchaToken: token,
+        gender: data.gender,
+        residence: data.residence
       });
 
       setIsSubmitting(false);

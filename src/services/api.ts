@@ -5,6 +5,8 @@ export interface SendOtpPayload {
   email: string;
   studentNumber: string;
   captchaToken: string;
+  gender?: string;
+  residence?: string;
 }
 
 export interface VerifyOtpPayload {
@@ -123,4 +125,36 @@ export const checkBackendConnection = async (): Promise<boolean> => {
   }
 
   return backendConnectionPromise;
+};
+
+
+export interface RegistrationStatusResponse {
+  success: boolean;
+  totalRegistrations: number;
+  isMaleClosed: boolean;
+  isFemaleClosed: boolean;
+  message: string;
+}
+
+export const fetchRegistrationStatus = async (): Promise<RegistrationStatusResponse> => {
+  try {
+    const response = await fetch(buildApiUrl('/registration-status'));
+    const data = await parseJsonResponse(response);
+    return data || {
+      success: true,
+      totalRegistrations: 0,
+      isMaleClosed: false,
+      isFemaleClosed: false,
+      message: 'Registrations are open.',
+    };
+  } catch (error) {
+    console.warn('Could not fetch registration status:', error);
+    return {
+      success: true,
+      totalRegistrations: 0,
+      isMaleClosed: false,
+      isFemaleClosed: false,
+      message: 'Registrations are open.',
+    };
+  }
 };

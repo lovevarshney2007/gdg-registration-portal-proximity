@@ -10,7 +10,7 @@ import { Input } from './Input';
 import { Radio } from './Radio';
 import { BRANCHES, DOMAINS } from '../constants/recruitment';
 import { generateUniversityEmail } from '../utils/formatters';
-import { sendOtp } from '../services/api';
+import { sendOtp, fetchRegistrationStatus } from '../services/api';
 import spidermanSideLook from '../assets/images/spiderman-side-look.png';
 
 const registrationSchema = z.object({
@@ -69,6 +69,15 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loadingText, setLoadingText] = useState('TRANSMITTING DATA...');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [isMaleClosed, setIsMaleClosed] = useState(false);
+
+  useEffect(() => {
+    fetchRegistrationStatus().then((status) => {
+      if (status && status.isMaleClosed) {
+        setIsMaleClosed(true);
+      }
+    });
+  }, []);
   const { executeRecaptcha, hasRecaptcha } = useRecaptchaV3();
 
   const {
@@ -109,6 +118,10 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
   }, [nameVal, studentNumberVal, emailVal, setValue]);
 
   const onSubmit = async (data: RegistrationData) => {
+    if (isMaleClosed && data.gender === 'Male') {
+      setErrorMsg('Registration for male candidates has closed (200 limit reached). Only female candidates may register.');
+      return;
+    }
     setIsSubmitting(true);
     setErrorMsg(null);
     setLoadingText('SOLVING ANTIBOT CHALLENGE...');
@@ -135,7 +148,9 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
         name: data.name,
         email: data.email,
         studentNumber: data.studentNumber,
-        captchaToken: token
+        captchaToken: token,
+        gender: data.gender,
+        residence: data.residence
       });
 
       setIsSubmitting(false);
@@ -174,6 +189,13 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
           </div>
 
           <div className="relative z-10 space-y-6">
+            {isMaleClosed && (
+              <div className="font-mono text-xs text-amber-400 bg-amber-400/10 border border-amber-400/30 px-4 py-3 flex items-center gap-2 rounded-xl">
+                <Info size={16} />
+                <span>Registration is now open only for Female candidates.</span>
+              </div>
+            )}
+
             {errorMsg && (
               <div className="font-mono text-xs text-[#EF4444] bg-[#EF4444]/10 border border-[#EF4444]/30 px-4 py-3 flex items-center gap-2 animate-pulse rounded-xl">
                 <AlertTriangle size={16} />
@@ -239,7 +261,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess })
                 placeholder="SELECT GENDER"
                 error={errors.gender?.message}
                 register={register('gender')}
-                options={['Male', 'Female']}
+                options={isMaleClosed ? ['Female'] : ['Male', 'Female']}
               />
 
               <Input
